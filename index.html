@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Savitribai Phule Pune University</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 400px;
+      background: white;
+      margin: 50px auto;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .header {
+      background-color: #1976D2;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .sub-header {
+      font-size: 14px;
+      margin-top: 5px;
+      color: #cfd8dc;
+    }
+    .form-section {
+      padding: 20px;
+    }
+    input[type="text"], input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .login-btn {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .login-btn:hover {
+      background-color: #45a049;
+    }
+    #certificateContainer {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+    #certificateContainer img {
+      width: 100%;
+      max-width: 500px;
+      border: 2px solid #1976D2;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      Savitribai Phule Pune University
+      <div class="sub-header">Provisional Certificate</div>
+    </div>
+    <div class="form-section">
+      <label for="rollNumber">Roll No</label>
+      <input type="text" id="rollNumber" placeholder="Enter Your Exam Roll No">
+
+      <label for="prNumber">P.R. No</label>
+      <input type="text" id="prNumber" placeholder="Enter Your P.R. No">
+
+      <label for="dob">Date of Birth</label>
+      <input type="date" id="dob">
+
+      <button class="login-btn" onclick="secureAccess()">Submit</button>
+    </div>
+
+    <div id="certificateContainer">
+      <h3>Your Provisional Certificate:</h3>
+      <img id="certImg" src="cert.jpg" alt="Certificate Image">
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const encodedMap = {
+        "NDI3OTA3OHwyMklDQ1NCQ09NMDA0MHwyMDAzLTA4LTE1": "certificate_4279078.jpg",
+        "MTIzNDU2N3wyMlhZWkFCQ09NMDAwMXwyMDA0LTAxLTEw": "certificate_1234567.jpg",
+        "OTg3NjU0M3wyMUFCQ0RFQ09NOTAwMHwyMDAyLTEyLTIw": "certificate_9876543.jpg"
+      };
+
+      function encodeTriple(roll, pr, dob) {
+        const combined = `${roll}|${pr}|${dob}`;
+        return btoa(combined); // Encode to base64
+      }
+
+      window.secureAccess = function() {
+        const roll = document.getElementById('rollNumber').value.trim();
+        const pr = document.getElementById('prNumber').value.trim();
+        const dob = document.getElementById('dob').value.trim(); // yyyy-mm-dd
+
+        if (!roll || !pr || !dob) {
+          alert("Please fill in all fields.");
+          return;
+        }
+
+        const encodedKey = encodeTriple(roll, pr, dob);
+        const fileName = encodedMap[encodedKey];
+
+        if (fileName) {
+          // Show certificate only if matched
+          document.getElementById('certImg').src = "cert.jpg";
+          document.getElementById('certificateContainer').style.display = 'block';
+        } else {
+          alert("Invalid credentials. Please try again.");
+        }
+      };
+    })();
+  </script>
+</body>
+</html>
